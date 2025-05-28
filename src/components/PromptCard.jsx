@@ -1,17 +1,28 @@
-import { Box, Heading, Text, VStack, Badge, Button } from "@chakra-ui/react";
+import { Box, Heading, Text, Stack, Badge } from "@chakra-ui/react";
+import { Link } from "react-router-dom";
 
-const PromptCard = ({ title, description, category, price }) => {
+function PromptCard({ prompt }) {
   return (
-    <Box borderWidth="1px" borderRadius="lg" p={5} shadow="md">
-      <VStack align="start" spacing={3}>
-        <Heading size="md">{title}</Heading>
-        <Text fontSize="sm">{description}</Text>
-        <Badge colorScheme="teal">{category}</Badge>
-        <Text fontWeight="bold">${price}</Text>
-        <Button colorScheme="blue" size="sm">Buy</Button>
-      </VStack>
-    </Box>
+    <Link to={`/prompt/${prompt.id}`}>
+      <Box
+        borderWidth="1px"
+        borderRadius="lg"
+        p={5}
+        shadow="md"
+        _hover={{ shadow: "lg", transform: "scale(1.02)" }}
+        transition="all 0.2s"
+      >
+        <Stack spacing={3}>
+          <Heading size="md">{prompt.title}</Heading>
+          <Text fontSize="sm" color="gray.600">
+            {prompt.description}
+          </Text>
+          <Badge colorScheme="purple">{prompt.category}</Badge>
+          <Text fontWeight="bold">{prompt.price}</Text>
+        </Stack>
+      </Box>
+    </Link>
   );
-};
+}
 
 export default PromptCard;

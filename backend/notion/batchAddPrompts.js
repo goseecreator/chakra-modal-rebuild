@@ -5,22 +5,17 @@ dotenv.config();
 const notion = new Client({ auth: process.env.NOTION_TOKEN });
 const databaseId = process.env.NOTION_DATABASE_ID;
 
-const prompts = [
-  {
-    Title: "Name a new pet brand",
-    Description: "Come up with a unique name for a premium pet accessory brand.",
-    Category: "Branding",
-    Price: "0.001",
-    BTCImpact: 200,
-  },
-  {
-    Title: "Create a product hook",
-    Description: "Write a 1-line hook for a mental wellness app.",
-    Category: "Copywriting",
-    Price: "0.0008",
-    BTCImpact: 150,
-  },
-];
+const prompts = pages.map((page) => {
+    return {
+      id: page.id,
+      title: page.properties.Title?.title?.[0]?.plain_text || "Untitled",
+      description: page.properties.Description?.rich_text?.[0]?.plain_text || "",
+      category: page.properties.Category?.select?.name || "General",
+      BTCImpact: page.properties.BTCImpact?.number || 0,
+      price: page.properties.Price?.number || 500, // 💵 fallback to 500 cents = $5
+    };
+  });
+  
 
 async function batchAdd() {
   for (const prompt of prompts) {

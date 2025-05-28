@@ -1,8 +1,9 @@
 // backend/db.js
 import Database from "better-sqlite3";
+
 const db = new Database("bitbloom.db");
 
-// Create table if it doesn't exist
+// Optional: initialize your schema if needed
 db.exec(`
   CREATE TABLE IF NOT EXISTS transactions (
     id TEXT PRIMARY KEY,
@@ -13,4 +14,4 @@ db.exec(`
   );
 `);
 
-export default db;
+export default db; // ✅ make sure this line exists
